@@ -266,9 +266,9 @@ int main(int argc, char *argv[]){
 		index++;
 	}
 
-	unsigned int good_buff_count;
-	unsigned int total_count;
-	unsigned int buff_count;
+	unsigned int good_buff_count = 0;
+	unsigned int total_count = 0;
+	unsigned int buff_count = 0;
 
 	if(word_size == 1){ go<unsigned char>(&input, buff_count, good_buff_count, total_count, show_raw, convert, show_zero, do_search, search_int, buffer_select); }
 	else if(word_size == 2){ go<unsigned short>(&input, buff_count, good_buff_count, total_count, show_raw, convert, show_zero, do_search, search_int, buffer_select); }
