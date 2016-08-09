@@ -9,9 +9,6 @@
 COMPILER = g++
 
 CFLAGS = -Wall -O3 -Iinclude
-RFLAGS = -Wall -O3 `root-config --cflags` -Iinclude
-LDLIBS = `root-config --libs`
-ROOT_INC = `root-config --incdir`
 
 TOP_LEVEL = $(shell pwd)
 SOURCE_DIR = $(shell pwd)/source
@@ -27,7 +24,7 @@ EXECUTABLE = hexReader
 
 $(EXECUTABLE): $(MAIN_SRC)
 #	Link the executable
-	$(COMPILER) $(RFLAGS) $(MAIN_SRC) -o $@ $(LDLIBS)
+	$(COMPILER) $(CFLAGS) $(MAIN_SRC) -o $@
 	@echo " Done making "$(EXECUTABLE)
 
 ########################################################################
