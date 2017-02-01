@@ -180,7 +180,8 @@ void help(char * prog_name_){
 	std::cout << "   --convert      | Attempt to convert words to Ascii characters\n";
 	std::cout << "   --search <int> | Search for an integer in the stream\n";
 	std::cout << "   --zero         | Suppress zero output\n";
-	std::cout << "   --word <int>   | Specify the file word size\n\n";
+	std::cout << "   --word <int>   | Specify the file word size\n";
+	std::cout << "   --offset <int> | Specify the start word of the file\n\n";
 	std::cout << "  Typical Buffer Types:\n";
 	std::cout << "   \"HEAD\" 1145128264\n";
 	std::cout << "   \"DATA\" 1096040772\n";  // Physics data buffer
@@ -207,6 +208,8 @@ int main(int argc, char *argv[]){
 		std::cout << " Error: failed to open input file\n";
 		return 1;
 	}
+
+	std::streampos foffset = 0;
 
 	int buffer_select = 0;
 	int search_int = 0;
@@ -258,6 +261,15 @@ int main(int argc, char *argv[]){
 			}
 			std::cout << " Using word size of " << word_size << " bytes\n";
 		}
+		else if(strcmp(argv[index], "--offset") == 0){
+			if(index + 1 >= argc){
+				std::cout << " Error! Missing required argument to '--offset'!\n";
+				help(argv[0]);
+				return 1;
+			}
+			foffset = strtoll(argv[++index], NULL, 0);
+			std::cout << " Starting at word no. " << foffset << " in file.\n";
+		}
 		else{ 
 			std::cout << " Error! Unrecognized option '" << argv[index] << "'!\n";
 			help(argv[0]);
@@ -265,6 +277,8 @@ int main(int argc, char *argv[]){
 		}
 		index++;
 	}
+
+	input.seekg(foffset*word_size);
 
 	unsigned int good_buff_count = 0;
 	unsigned int total_count = 0;
